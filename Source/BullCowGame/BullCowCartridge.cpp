@@ -20,17 +20,23 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
     ClearScreen();
+
     // PrintLine(HiddenWord);
 
     // Checking Player Guesss
     // PrintLine(Input);
     if (HiddenWord == Input)
     {
-        PrintLine("You win");
+        PrintLine(TEXT("You win"));
     }
     else
     {
-        PrintLine("Wrong word");
+        if (Input.Len() != HiddenWord.Len())
+        {
+            PrintLine(TEXT("The hidden char is 5 symbol long")); //Magic number
+        }
+
+        PrintLine(TEXT("You loose"));
     }
     // Check if it is Isogram
     // Prompt To Guess Again
