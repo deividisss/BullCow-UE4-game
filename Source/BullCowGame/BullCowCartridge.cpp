@@ -4,13 +4,13 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
+    SetupGame();                                             // Setting Up Game
+    PrintLine(TEXT("The HiddenWords is: %s."), *HiddenWord); // Debug Line
 
     // Welcoming The Player
     PrintLine(TEXT("Welcome to the Bull Cows game"));
-    PrintLine(TEXT("Guess the 4 letter word!")); // Magic Number Remove!!
-    PrintLine(TEXT("Enter something and press Enter..."));
-
-    SetupGame(); // Setting Up Game
+    PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len());
+    PrintLine(TEXT("Type in your guess and press Enter to continue..."));
 
     // Set Lives
 
@@ -21,22 +21,23 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 {
     ClearScreen();
 
-    // PrintLine(HiddenWord);
+    /*   if game is over do ClearScrenn() and SetupGame() the game
+    else Checking PlayerGuess */
 
-    // Checking Player Guesss
-    // PrintLine(Input);
     if (HiddenWord == Input)
     {
         PrintLine(TEXT("You win"));
+        // bGameOver = true;
     }
     else
     {
         if (Input.Len() != HiddenWord.Len())
         {
-            PrintLine(TEXT("The hidden char is 5 symbol long")); //Magic number
+            PrintLine(TEXT("The hidden Words is %i characters long, try again!"), HiddenWord.Len()); //Magic number
         }
 
         PrintLine(TEXT("You loose"));
+        // bGameOver = true;
     }
     // Check if it is Isogram
     // Prompt To Guess Again
@@ -56,6 +57,9 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("table");
+    HiddenWord = TEXT("tru");
     Lives = 5;
+    PrintLine(TEXT("Givybes: %i"), Lives);
+    // bGameOver = true;
+    // PrintLine(TEXT("Givybes: %i"), *Lives);
 }
