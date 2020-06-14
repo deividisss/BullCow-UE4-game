@@ -21,19 +21,7 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
     }
     else
     {
-        if (HiddenWord == Input)
-        {
-            PrintLine(TEXT("You win"));
-            EndGame();
-        }
-        else
-        {
-            if (Input.Len() != HiddenWord.Len())
-            {
-                PrintLine(TEXT("The hidden Words is %i characters long. \nYou have lost!"), HiddenWord.Len()); //Magic number
-                EndGame();
-            }
-        }
+        ProcessGuess(Input);
     }
 
     // Check if it is Isogram
@@ -59,7 +47,7 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Welcome to the Bull Cows game"));
 
     HiddenWord = TEXT("tru");
-    Lives = 5;
+    Lives = HiddenWord.Len();
     bGameOver = false;
 
     PrintLine(TEXT("Givybes: %i"), Lives);
@@ -71,4 +59,31 @@ void UBullCowCartridge::EndGame()
 {
     bGameOver = true;
     PrintLine(TEXT("Press Enter to play again."));
+}
+
+void UBullCowCartridge::ProcessGuess(FString Guess)
+{
+    if (HiddenWord == Guess)
+    {
+        PrintLine(TEXT("You have won"));
+        EndGame();
+    }
+    else
+    {
+
+        PrintLine(TEXT("Lost a life!!!"));
+        PrintLine(TEXT("%i"), --Lives);
+        if (Lives > 0)
+        {
+            if (Guess.Len() != HiddenWord.Len())
+            {
+                PrintLine(TEXT("Sorry, try guessing again \nYou have %i lives remaining"), Lives);
+            }
+        }
+        else
+        {
+            PrintLine(TEXT("You have no lives left!!"));
+            EndGame();
+        }
+    }
 }
